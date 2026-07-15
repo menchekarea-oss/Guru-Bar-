@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#7a2717" />
+    <title>Hotel Guru Bar & Restaurant Billing</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="bill-workspace" aria-label="Billing software">
+        <header class="topbar">
+          <div>
+            <p class="kicker">Zari Bk, Latur</p>
+            <h1 class="brand-title">Hotel Guru Bar & Restaurant</h1>
+          </div>
+          <div class="top-actions">
+            <button class="print-btn" id="chooseFolder" type="button" title="Choose bills folder">Choose Bills Folder</button>
+            <button class="print-btn" id="printBill" type="button" title="Print bill">Print</button>
+            <button class="print-btn" id="saveBill" type="button" title="Save bill">Save Bill</button>
+          </div>
+        </header>
+
+        <section class="hero-band">
+          <img src="https://images.pexels.com/photos/35258949/pexels-photo-35258949.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&fit=crop" alt="Aesthetic bar interior with warm lighting" />
+        </section>
+
+        <section class="customer-panel" aria-label="Bill details">
+          <label>
+            Bill No.
+            <input id="billNo" type="text" value="GBR-001" />
+          </label>
+          <label>
+            Table
+            <input id="tableNo" type="text" placeholder="Table / Parcel" />
+          </label>
+          <label>
+            Customer
+            <input id="customerName" type="text" placeholder="Customer name" />
+          </label>
+          <label>
+            Date
+            <input id="billDate" type="date" />
+          </label>
+          <label>
+            GST
+            <span class="toggle-row">
+              <input id="gstEnabled" type="checkbox" checked />
+              <span>Apply</span>
+            </span>
+          </label>
+          <label>
+            GST %
+            <input id="gstRate" type="number" min="0" step="0.5" value="5" />
+          </label>
+        </section>
+
+        <section class="tables-panel" aria-label="Running table orders">
+          <div class="section-heading">
+            <h2>Running Tables</h2>
+            <div class="table-open">
+              <input id="newTableName" type="text" placeholder="Table no. / Parcel" />
+              <button id="openTable" type="button">Open Table</button>
+            </div>
+          </div>
+          <div class="table-tabs" id="tableTabs"></div>
+        </section>
+
+        <section class="content-grid">
+          <section aria-labelledby="itemsTitle">
+            <div class="section-heading">
+              <h2 id="itemsTitle">Food & Liquor Menu</h2>
+              <button id="clearQty" type="button">Clear Qty</button>
+            </div>
+            <label class="search-box">
+              Search Menu
+              <input id="menuSearch" type="search" placeholder="Search thali, roti, beer..." />
+            </label>
+            <div class="menu-tabs" aria-label="Menu sections">
+              <button class="active" type="button" data-filter="all">All</button>
+              <button type="button" data-filter="Food">Food</button>
+              <button type="button" data-filter="Drinks">Drinks</button>
+            </div>
+            <div class="submenu-tabs" id="foodSubmenu" aria-label="Food subcategories" hidden>
+              <button class="active" type="button" data-subfilter="all">All Food</button>
+              <button type="button" data-subfilter="Thali">Thali</button>
+              <button type="button" data-subfilter="Starter">Starter</button>
+              <button type="button" data-subfilter="Curry">Curry</button>
+              <button type="button" data-subfilter="Rice">Rice</button>
+              <button type="button" data-subfilter="Roti">Roti</button>
+              <button type="button" data-subfilter="Beverages">Beverages</button>
+            </div>
+            <div class="items-grid" id="itemsGrid"></div>
+
+            <section class="manager-panel" aria-labelledby="managerTitle">
+              <div class="section-heading">
+                <h2 id="managerTitle">Edit Menu</h2>
+                <button id="resetMenu" type="button">Reset Menu</button>
+              </div>
+              <form class="menu-form" id="menuForm">
+                <input id="editItemId" type="hidden" />
+                <label>
+                  Item Name
+                  <input id="menuItemName" type="text" placeholder="Item name" required />
+                </label>
+                <label>
+                  Price
+                  <input id="menuItemPrice" type="number" min="1" step="1" placeholder="Price" required />
+                </label>
+                <label>
+                  Category
+                  <select id="menuItemCategory">
+                    <option>Thali</option>
+                    <option>Starter</option>
+                    <option>Curry</option>
+                    <option>Rice</option>
+                    <option>Roti</option>
+                    <option>Beverages</option>
+                    <option>Drinks</option>
+                  </select>
+                </label>
+                <label>
+                  Image URL
+                  <input id="menuItemPhoto" type="url" placeholder="Optional photo URL" />
+                </label>
+                <button type="submit" class="form-submit">Save Item</button>
+                <button type="button" id="cancelEdit">Cancel</button>
+              </form>
+              <div class="menu-table" id="menuTable"></div>
+            </section>
+          </section>
+
+          <aside class="bill-panel" aria-labelledby="summaryTitle">
+            <h2 id="summaryTitle">Total Bill</h2>
+            <div class="bill-meta">
+              <span id="summaryBillNo">GBR-001</span>
+              <span id="summaryDate"></span>
+            </div>
+            <div class="bill-lines" id="billLines">
+              <p class="empty-state">Add quantity to start billing.</p>
+            </div>
+            <div class="totals">
+              <div>
+                <span>Subtotal</span>
+                <strong id="subtotal">Rs. 0</strong>
+              </div>
+              <div>
+                <span>Service Charge 5%</span>
+                <strong id="serviceCharge">Rs. 0</strong>
+              </div>
+              <div id="gstRow">
+                <span id="gstLabel">GST 5%</span>
+                <strong id="gstAmount">Rs. 0</strong>
+              </div>
+              <div class="grand-total">
+                <span>Total</span>
+                <strong id="grandTotal">Rs. 0</strong>
+              </div>
+            </div>
+            <p class="save-status" id="saveStatus" aria-live="polite"></p>
+          </aside>
+        </section>
+
+        <section class="report-panel" aria-labelledby="reportTitle">
+          <div class="section-heading">
+            <h2 id="reportTitle">Daily Sales Report</h2>
+          </div>
+          <div class="report-grid" id="salesReport"></div>
+        </section>
+      </section>
+    </main>
+
+    <section id="printReceipt" aria-hidden="true"></section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
+

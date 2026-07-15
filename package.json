@@ -1,0 +1,9 @@
+﻿{
+  "name": "guru-bar-restaurant-billing",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  }
+}
